@@ -35,21 +35,21 @@ let getUserRepos = async (req,res)=> {
 }
 
 let cache = (req,res,next) => {
-    let {username} = req.params;
+    let {username} = req.params; //get the username from the params
     client.get(username,(err,data)=> {
         if(err) throw err;
 
-        if(data !== null) {
+        if(data !== null) { //check if the data is null
             console.log("getting from cache")
             res.status(200).send(sendResponse(username,data))
         }
         else {
-            next()
+            next() // run the next command
         }
     })
 }
 
-app.get("/:username",cache,getUserRepos);
+app.get("/:username", cache /*run the middleware function */,getUserRepos);
 
 app.listen(PORT,()=> {
     console.log(`App is running on port ${PORT}`)
